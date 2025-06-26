@@ -4,6 +4,7 @@ import {
   ThemeColors,
 } from "@/common/constants/theme.constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useColorScheme } from "nativewind";
 import React, {
   createContext,
   ReactNode,
@@ -16,6 +17,7 @@ interface ThemeContextType {
   isDark: boolean;
   colors: ThemeColors;
   toggleTheme: () => void;
+  colorScheme: "light" | "dark";
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -34,10 +36,15 @@ interface ThemeProviderProps {
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [isDark, setIsDark] = useState(false);
+  const { colorScheme, setColorScheme } = useColorScheme();
 
   useEffect(() => {
     loadTheme();
   }, []);
+
+  useEffect(() => {
+    setColorScheme(isDark ? "dark" : "light");
+  }, [isDark, setColorScheme]);
 
   const loadTheme = async () => {
     try {
@@ -63,7 +70,14 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const colors = isDark ? darkTheme : lightTheme;
 
   return (
-    <ThemeContext.Provider value={{ isDark, colors, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{
+        isDark,
+        colors,
+        toggleTheme,
+        colorScheme: colorScheme || "light",
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

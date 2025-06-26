@@ -1,12 +1,13 @@
 import { RootStackParamList } from "@/common/types/rootParamList";
-import { Button } from "@/components/ui/Button";
-import { useTheme } from "@/contexts/ThemeContext";
-import { homePageStyles } from "@/styles";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { useThemeClasses } from "@/hooks/useThemeClasses";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
-import { Text, View } from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ReduxExample from "@/components/examples/ReduxExample";
+import NativeWindDemo from "@/components/examples/NativeWindDemo";
+import { Button } from "@/components/ui/Button";
+import { View, Text } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -18,78 +19,53 @@ interface Props {
 }
 
 const HomePage = ({ navigation }: Props) => {
-  const { colors } = useTheme();
+  const { getBgColorClass, getTextColorClass } = useThemeClasses();
+  const [activeDemo, setActiveDemo] = useState<"redux" | "nativewind">(
+    "nativewind"
+  );
+
   return (
-    <SafeAreaView
-      style={[homePageStyles.container, { backgroundColor: colors.background }]}
-    >
-      <View style={homePageStyles.content}>
-        <View style={homePageStyles.header}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginBottom: 8,
-            }}
-          >
-            <Ionicons
-              name="hand-right"
-              size={24}
-              color={colors.textSecondary}
-              style={{ marginRight: 8 }}
-            />
-            <Text
-              style={[homePageStyles.greeting, { color: colors.textSecondary }]}
-            >
-              Welcome back
-            </Text>
-          </View>
-          <Text style={[homePageStyles.title, { color: colors.text }]}></Text>
-        </View>
-        <View
-          style={[
-            homePageStyles.heroCard,
-            { backgroundColor: colors.card, shadowColor: colors.text },
-          ]}
+    <SafeAreaView className={`flex-1 ${getBgColorClass("background")}`}>
+      <View className="p-4">
+        <Text
+          className={`text-2xl font-bold text-center mb-4 ${getTextColorClass(
+            "text"
+          )}`}
         >
-          <Ionicons
-            name="rocket"
-            size={32}
-            color={colors.primary}
-            style={{ marginBottom: 12 }}
-          />
-          <Text style={[homePageStyles.heroTitle, { color: colors.text }]}>
-            Ready to explore?
-          </Text>
-          <Text
-            style={[
-              homePageStyles.heroSubtitle,
-              { color: colors.textSecondary },
-            ]}
-          >
-            Manage your profile and customize your experience
-          </Text>
-        </View>
-        <View style={homePageStyles.buttonContainer}>
+          Demo Showcase
+        </Text>
+
+        <View className="flex-row gap-2 mb-4">
           <Button
-            title="View Profile"
-            icon={<Ionicons name="person" size={20} color="#FFFFFF" />}
-            style={homePageStyles.button}
-          />
-          <Button
-            title="Settings"
-            variant="secondary"
+            title="NativeWind"
+            variant={activeDemo === "nativewind" ? "primary" : "outline"}
+            onPress={() => setActiveDemo("nativewind")}
+            className="flex-1"
             icon={
               <Ionicons
-                name="settings"
-                size={20}
-                color={colors.textSecondary}
+                name="color-palette"
+                size={16}
+                color={activeDemo === "nativewind" ? "#FFFFFF" : "#007AFF"}
               />
             }
-            style={homePageStyles.button}
+          />
+          <Button
+            title="Redux"
+            variant={activeDemo === "redux" ? "primary" : "outline"}
+            onPress={() => setActiveDemo("redux")}
+            className="flex-1"
+            icon={
+              <Ionicons
+                name="layers"
+                size={16}
+                color={activeDemo === "redux" ? "#FFFFFF" : "#007AFF"}
+              />
+            }
           />
         </View>
       </View>
+
+      {activeDemo === "redux" ? <ReduxExample /> : <NativeWindDemo />}
     </SafeAreaView>
   );
 };

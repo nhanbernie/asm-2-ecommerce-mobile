@@ -1,21 +1,26 @@
-import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { setUser, updateUser } from '@/redux/slices/userSlice';
-import { useGetUserQuery, useUpdateUserMutation } from '@/redux/api/userApi';
-import { useTheme } from '@/contexts/ThemeContext';
-import { Button } from '@/components/ui/Button';
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useAppDispatch, useAppSelector } from "@/hooks/redux";
+import { setUser, updateUser } from "@/redux/slices/userSlice";
+import { useGetUserQuery, useUpdateUserMutation } from "@/redux/api/userApi";
+import { useThemeClasses } from "@/hooks/useThemeClasses";
+import { Button } from "@/components/ui/Button";
+import React from "react";
+import { View, Text } from "react-native";
 
 const ReduxExample = () => {
-  const { colors } = useTheme();
+  const { getBgColorClass, getTextColorClass } = useThemeClasses();
   const dispatch = useAppDispatch();
   const { currentUser, isLoading } = useAppSelector((state) => state.user);
-  
-  const { data: userData, error, isLoading: isQueryLoading } = useGetUserQuery('1', {
+
+  const {
+    data: userData,
+    error,
+    isLoading: isQueryLoading,
+  } = useGetUserQuery("1", {
     skip: !!currentUser,
   });
-  
-  const [updateUserMutation, { isLoading: isUpdating }] = useUpdateUserMutation();
+
+  const [updateUserMutation, { isLoading: isUpdating }] =
+    useUpdateUserMutation();
 
   const handleLoadUser = () => {
     if (userData) {
@@ -28,43 +33,61 @@ const ReduxExample = () => {
       try {
         const result = await updateUserMutation({
           id: currentUser.id,
-          name: 'Updated Name',
-          bio: 'Updated bio via RTK Query',
+          name: "Updated Name",
+          bio: "Updated bio via RTK Query",
         }).unwrap();
         dispatch(updateUser(result));
       } catch (error) {
-        console.error('Update failed:', error);
+        console.error("Update failed:", error);
       }
     }
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>
+    <View
+      className={`flex-1 p-5 justify-center ${getBgColorClass("background")}`}
+    >
+      <Text
+        className={`text-2xl font-bold text-center mb-5 ${getTextColorClass(
+          "text"
+        )}`}
+      >
         Redux Toolkit Demo
       </Text>
-      
+
       {isQueryLoading && (
-        <Text style={[styles.status, { color: colors.textSecondary }]}>
+        <Text
+          className={`text-center my-3 ${getTextColorClass("text-secondary")}`}
+        >
           Loading user data...
         </Text>
       )}
-      
+
       {error && (
-        <Text style={[styles.error, { color: '#FF3B30' }]}>
+        <Text className="text-center my-3 text-red-500">
           Error loading user
         </Text>
       )}
-      
+
       {currentUser ? (
-        <View style={[styles.userCard, { backgroundColor: colors.card }]}>
-          <Text style={[styles.userName, { color: colors.text }]}>
+        <View className={`p-5 rounded-xl my-5 ${getBgColorClass("card")}`}>
+          <Text
+            className={`text-lg font-semibold mb-1 ${getTextColorClass(
+              "text"
+            )}`}
+          >
             {currentUser.name}
           </Text>
-          <Text style={[styles.userEmail, { color: colors.textSecondary }]}>
+          <Text
+            className={`text-sm mb-3 ${getTextColorClass("text-secondary")}`}
+          >
             {currentUser.email}
           </Text>
-          <Text style={[styles.userBio, { color: colors.textSecondary }]}>
+          <Text
+            className={`text-sm leading-5 ${getTextColorClass(
+              "text-secondary"
+            )}`}
+          >
             {currentUser.bio}
           </Text>
         </View>
@@ -75,10 +98,10 @@ const ReduxExample = () => {
           disabled={!userData}
         />
       )}
-      
+
       {currentUser && (
         <Button
-          title={isUpdating ? 'Updating...' : 'Update User'}
+          title={isUpdating ? "Updating..." : "Update User"}
           onPress={handleUpdateUser}
           disabled={isUpdating}
           variant="secondary"
@@ -87,45 +110,5 @@ const ReduxExample = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  status: {
-    textAlign: 'center',
-    marginVertical: 10,
-  },
-  error: {
-    textAlign: 'center',
-    marginVertical: 10,
-  },
-  userCard: {
-    padding: 20,
-    borderRadius: 12,
-    marginVertical: 20,
-  },
-  userName: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 5,
-  },
-  userEmail: {
-    fontSize: 14,
-    marginBottom: 10,
-  },
-  userBio: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-});
 
 export default ReduxExample;

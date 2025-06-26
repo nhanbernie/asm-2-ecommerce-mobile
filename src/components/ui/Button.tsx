@@ -1,20 +1,12 @@
-import { useTheme } from "@/contexts/ThemeContext";
-import { buttonStyles } from "@/styles";
+import { useThemeClasses } from "@/hooks/useThemeClasses";
 import React from "react";
-import {
-  Text,
-  TextStyle,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 interface ButtonProps {
   title: string;
   onPress?: () => void;
   variant?: "primary" | "secondary" | "outline";
-  style?: ViewStyle;
-  textStyle?: TextStyle;
+  className?: string;
   disabled?: boolean;
   icon?: undefined | React.ReactNode;
   iconPosition?: "left" | "right";
@@ -24,75 +16,65 @@ export const Button = ({
   title,
   onPress,
   variant = "primary",
-  style,
-  textStyle,
+  className = "",
   disabled = false,
   icon,
   iconPosition = "left",
 }: ButtonProps) => {
-  const { colors } = useTheme();
+  const { getBgColorClass, getTextColorClass, getBorderColorClass } =
+    useThemeClasses();
 
-  const getButtonStyle = () => {
+  const getButtonClasses = () => {
+    const baseClasses =
+      "px-6 py-4 rounded-2xl items-center justify-center min-h-[56px] shadow-lg";
+
     switch (variant) {
       case "primary":
-        return {
-          backgroundColor: disabled ? colors.textSecondary : colors.primary,
-        };
+        return `${baseClasses} ${
+          disabled
+            ? "bg-text-secondary-light dark:bg-text-secondary-dark"
+            : getBgColorClass("primary")
+        }`;
       case "secondary":
-        return {
-          backgroundColor: colors.surface,
-        };
+        return `${baseClasses} ${getBgColorClass("surface")}`;
       case "outline":
-        return {
-          backgroundColor: "transparent",
-          borderWidth: 1,
-          borderColor: colors.primary,
-        };
+        return `${baseClasses} bg-transparent border-2 ${getBorderColorClass()}`;
       default:
-        return {
-          backgroundColor: colors.primary,
-        };
+        return `${baseClasses} ${getBgColorClass("primary")}`;
     }
   };
 
-  const getTextStyle = () => {
+  const getTextClasses = () => {
+    const baseClasses = "text-base font-semibold tracking-wide";
+
     switch (variant) {
       case "primary":
-        return {
-          color: "#FFFFFF",
-        };
+        return `${baseClasses} text-white`;
       case "secondary":
-        return {
-          color: colors.text,
-        };
+        return `${baseClasses} ${getTextColorClass("text")}`;
       case "outline":
-        return {
-          color: colors.primary,
-        };
+        return `${baseClasses} ${getTextColorClass("primary")}`;
       default:
-        return {
-          color: "#FFFFFF",
-        };
+        return `${baseClasses} text-white`;
     }
   };
+
   return (
     <TouchableOpacity
-      style={[buttonStyles.button, getButtonStyle(), style]}
+      className={`${getButtonClasses()} ${className}`}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.8}
     >
-      <View style={buttonStyles.buttonContent}>
+      <View className="flex-row items-center justify-center">
         {icon && iconPosition === "left" && (
-          <View style={buttonStyles.iconContainer}>{icon}</View>
+          <View className="mx-2">{icon}</View>
         )}
 
-        <Text style={[buttonStyles.buttonText, getTextStyle(), textStyle]}>
-          {String(title || "")}
-        </Text>
+        <Text className={getTextClasses()}>{String(title || "")}</Text>
 
         {icon && iconPosition === "right" && (
-          <View style={buttonStyles.iconContainer}>{icon}</View>
+          <View className="mx-2">{icon}</View>
         )}
       </View>
     </TouchableOpacity>
