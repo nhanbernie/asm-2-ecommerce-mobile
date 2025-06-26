@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ReduxExample from "@/components/examples/ReduxExample";
 import NativeWindDemo from "@/components/examples/NativeWindDemo";
+import UIShowcase from "@/components/examples/UIShowcase";
 import { Button } from "@/components/ui/Button";
 import { View, Text } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -20,8 +21,8 @@ interface Props {
 
 const HomePage = ({ navigation }: Props) => {
   const { getBgColorClass, getTextColorClass } = useThemeClasses();
-  const [activeDemo, setActiveDemo] = useState<"redux" | "nativewind">(
-    "nativewind"
+  const [activeDemo, setActiveDemo] = useState<"redux" | "nativewind" | "ui">(
+    "ui"
   );
 
   return (
@@ -37,7 +38,20 @@ const HomePage = ({ navigation }: Props) => {
 
         <View className="flex-row gap-2 mb-4">
           <Button
-            title="NativeWind"
+            title="UI"
+            variant={activeDemo === "ui" ? "primary" : "outline"}
+            onPress={() => setActiveDemo("ui")}
+            className="flex-1"
+            icon={
+              <Ionicons
+                name="apps"
+                size={16}
+                color={activeDemo === "ui" ? "#FFFFFF" : "#007AFF"}
+              />
+            }
+          />
+          <Button
+            title="Theme"
             variant={activeDemo === "nativewind" ? "primary" : "outline"}
             onPress={() => setActiveDemo("nativewind")}
             className="flex-1"
@@ -65,7 +79,13 @@ const HomePage = ({ navigation }: Props) => {
         </View>
       </View>
 
-      {activeDemo === "redux" ? <ReduxExample /> : <NativeWindDemo />}
+      {activeDemo === "redux" ? (
+        <ReduxExample />
+      ) : activeDemo === "nativewind" ? (
+        <NativeWindDemo />
+      ) : (
+        <UIShowcase />
+      )}
     </SafeAreaView>
   );
 };

@@ -1,4 +1,5 @@
 import { useThemeClasses } from "@/hooks/useThemeClasses";
+import { cn } from "@/lib/utils";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
@@ -61,7 +62,7 @@ export const Button = ({
 
   return (
     <TouchableOpacity
-      className={`${getButtonClasses()} ${className}`}
+      className={cn(getButtonClasses(), className)}
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.8}
@@ -71,7 +72,7 @@ export const Button = ({
           <View className="mx-2">{icon}</View>
         )}
 
-        <Text className={getTextClasses()}>{String(title || "")}</Text>
+        <Text className={cn(getTextClasses())}>{String(title || "")}</Text>
 
         {icon && iconPosition === "right" && (
           <View className="mx-2">{icon}</View>
