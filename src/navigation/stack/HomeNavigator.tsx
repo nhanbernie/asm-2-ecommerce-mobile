@@ -1,0 +1,1 @@
+// If have login when go to this component.
