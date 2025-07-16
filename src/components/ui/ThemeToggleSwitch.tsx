@@ -1,7 +1,8 @@
 import { useTheme } from "@/contexts/ThemeContext";
+import { useThemeClasses } from "@/hooks/useThemeClasses";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { StyleSheet, Switch, Text, View } from "react-native";
+import { Switch, Text, View } from "react-native";
 
 interface ThemeToggleSwitchProps {
   value: boolean;
@@ -13,33 +14,34 @@ export const ThemeToggleSwitch = ({
   onValueChange,
 }: ThemeToggleSwitchProps) => {
   const { colors } = useTheme();
+  const { getBgColorClass, getTextColorClass, getBorderColorClass } =
+    useThemeClasses();
 
   return (
     <View
-      style={[
-        styles.container,
-        { backgroundColor: colors.card, borderColor: colors.border },
-      ]}
+      className={`flex-row items-center justify-between p-5 rounded-2xl border-2 my-3 shadow-md ${getBgColorClass(
+        "card"
+      )} ${getBorderColorClass()}`}
     >
-      <View style={styles.labelContainer}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 6,
-          }}
-        >
+      <View className="flex-1">
+        <View className="flex-row items-center mb-2">
           <Ionicons
             name={value ? "moon" : "sunny"}
             size={20}
             color={colors.primary}
             style={{ marginRight: 8 }}
           />
-          <Text style={[styles.label, { color: colors.text }]}>
+          <Text
+            className={`text-lg font-semibold tracking-wide ${getTextColorClass(
+              "text"
+            )}`}
+          >
             {value ? "Dark Mode" : "Light Mode"}
           </Text>
         </View>
-        <Text style={[styles.description, { color: colors.textSecondary }]}>
+        <Text
+          className={`text-sm leading-5 ${getTextColorClass("text-secondary")}`}
+        >
           Switch between light and dark theme
         </Text>
       </View>
@@ -56,32 +58,3 @@ export const ThemeToggleSwitch = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 20,
-    borderRadius: 16,
-    borderWidth: 2,
-    marginVertical: 12,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 4,
-  },
-  labelContainer: {
-    flex: 1,
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: "600",
-    marginBottom: 6,
-    letterSpacing: 0.3,
-  },
-  description: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-});
