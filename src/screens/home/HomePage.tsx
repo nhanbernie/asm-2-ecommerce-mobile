@@ -1,14 +1,14 @@
 import { RootStackParamList } from "@/common/types/rootParamList";
-import { useThemeClasses } from "@/hooks/useThemeClasses";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
-import ReduxExample from "@/components/examples/ReduxExample";
 import NativeWindDemo from "@/components/examples/NativeWindDemo";
+import ReduxExample from "@/components/examples/ReduxExample";
 import UIShowcase from "@/components/examples/UIShowcase";
 import { Button } from "@/components/ui/Button";
-import { View, Text } from "react-native";
+import { useThemeClasses } from "@/hooks/useThemeClasses";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -35,6 +35,14 @@ const HomePage = ({ navigation }: Props) => {
         >
           Demo Showcase
         </Text>
+
+        {/* E-Commerce App Button */}
+        <Button
+          title="Open E-Commerce App"
+          onPress={() => navigation.navigate("ProductList")}
+          className="mb-4"
+          icon={<Ionicons name="storefront" size={20} color="#FFFFFF" />}
+        />
 
         <View className="flex-row gap-2 mb-4">
           <Button
