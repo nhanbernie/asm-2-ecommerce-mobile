@@ -1,4 +1,4 @@
-import { RootStackParamList } from "@/common/types/rootParamList";
+import { TabScreenProps } from "@/common/types/rootParamList";
 import { Button } from "@/components/ui";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useThemeClasses } from "@/hooks/useThemeClasses";
@@ -6,14 +6,11 @@ import { cn } from "@/lib/utils";
 import { ProductCard } from "@/screens/ecommerce/components/ProductCard";
 import { Product } from "@/services/api";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-type WishlistScreenProps = NativeStackScreenProps<
-  RootStackParamList,
-  "Wishlist"
->;
+
+type WishlistScreenProps = TabScreenProps<"Wishlist">;
 
 export const WishlistScreen = ({ navigation }: WishlistScreenProps) => {
   const { getBgColorClass, getTextColorClass } = useThemeClasses();
@@ -23,7 +20,13 @@ export const WishlistScreen = ({ navigation }: WishlistScreenProps) => {
     navigation.navigate("ProductDetail", { productId: product.id });
   };
 
-  const renderWishlistItem = ({ item }: { item: Product }) => (
+  const renderWishlistItem = ({
+    item,
+    index,
+  }: {
+    item: Product;
+    index: number;
+  }) => (
     <View className="w-1/2 px-2">
       <ProductCard
         product={item}
@@ -69,7 +72,7 @@ export const WishlistScreen = ({ navigation }: WishlistScreenProps) => {
   const renderHeader = () => (
     <View className="flex-row items-center justify-between px-6 pt-4 mb-6">
       <TouchableOpacity
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate("ProductList")}
         className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center"
       >
         <Ionicons name="arrow-back" size={20} color="#6B7280" />
@@ -95,11 +98,10 @@ export const WishlistScreen = ({ navigation }: WishlistScreenProps) => {
       </View>
 
       {items.length > 0 && (
-        <TouchableOpacity
-          onPress={clearWishlist}
-          className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 items-center justify-center"
-        >
-          <Ionicons name="trash-outline" size={20} color="#EF4444" />
+        <TouchableOpacity onPress={clearWishlist}>
+          <View className="w-10 h-10 rounded-full bg-red-50 dark:bg-red-900/20 items-center justify-center">
+            <Ionicons name="trash-outline" size={20} color="#EF4444" />
+          </View>
         </TouchableOpacity>
       )}
     </View>
@@ -125,13 +127,13 @@ export const WishlistScreen = ({ navigation }: WishlistScreenProps) => {
       <FlatList
         data={items}
         renderItem={renderWishlistItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => `wishlist-item-${item.id}-idx-${index}`}
         numColumns={2}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={{ paddingBottom: 100 }}
         ListHeaderComponent={renderHeader}
         ItemSeparatorComponent={() => <View className="h-4" />}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
+        key={`wishlist-grid-${items.length}`}
       />
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import { RootStackParamList } from "@/common/types/rootParamList";
+import { TabScreenProps } from "@/common/types/rootParamList";
 import { Button } from "@/components/ui";
 import { useCart } from "@/contexts/CartContext";
 import { useThemeClasses } from "@/hooks/useThemeClasses";
@@ -6,11 +6,11 @@ import { cn } from "@/lib/utils";
 import { CartItemCard } from "@/screens/ecommerce/components/CartItemCard";
 import { PriceSummary } from "@/screens/ecommerce/components/PriceSummary";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { Alert, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-type CartScreenProps = NativeStackScreenProps<RootStackParamList, "Cart">;
+
+type CartScreenProps = TabScreenProps<"Cart">;
 
 export const CartScreen = ({ navigation }: CartScreenProps) => {
   const { getBgColorClass, getTextColorClass } = useThemeClasses();
@@ -135,14 +135,14 @@ export const CartScreen = ({ navigation }: CartScreenProps) => {
       <View className="flex-1">
         <FlatList
           data={items}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View className="px-6">
               <CartItemCard item={item} />
             </View>
           )}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) => `cart-${item.id}-${index}`}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{ paddingBottom: 100 }}
           ListHeaderComponent={
             <View className="px-6 pt-4">{renderHeader()}</View>
           }

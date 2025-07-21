@@ -97,14 +97,14 @@ const HomePage = ({ navigation }: Props) => {
       setCurrentStep((prev) => prev + 1);
     } else {
       InteractionManager.runAfterInteractions(() => {
-        navigation.navigate("ProductList");
+        navigation.navigate("MainApp");
       });
     }
   }, [currentStep, navigation]);
 
   const handleSkip = useCallback(() => {
     InteractionManager.runAfterInteractions(() => {
-      navigation.navigate("ProductList");
+      navigation.navigate("MainApp");
     });
   }, [navigation]);
 

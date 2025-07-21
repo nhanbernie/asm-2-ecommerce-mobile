@@ -1,11 +1,6 @@
 import { RootStackParamList } from "@/common/types/rootParamList";
-import {
-  CartScreen,
-  HomePage,
-  ProductDetailScreen,
-  ProductListScreen,
-  WishlistScreen,
-} from "@/screens";
+import { HomePage, ProductDetailScreen } from "@/screens";
+import { TabNavigator } from "@/navigation/tab/TabNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -21,10 +16,8 @@ const RootNavigator = () => {
         }}
       >
         <Stack.Screen name="Home" component={HomePage} />
-        <Stack.Screen name="ProductList" component={ProductListScreen} />
+        <Stack.Screen name="MainApp" component={TabNavigator} />
         <Stack.Screen name="ProductDetail" component={ProductDetailScreen} />
-        <Stack.Screen name="Cart" component={CartScreen} />
-        <Stack.Screen name="Wishlist" component={WishlistScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

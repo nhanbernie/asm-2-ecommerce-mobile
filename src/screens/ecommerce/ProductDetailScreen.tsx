@@ -54,7 +54,7 @@ export const ProductDetailScreen = ({
   };
 
   const handleGoToCart = () => {
-    navigation.navigate("Cart");
+    navigation.navigate("MainApp");
   };
 
   const handleWishlistToggle = () => {
@@ -108,7 +108,10 @@ export const ProductDetailScreen = ({
   }
 
   return (
-    <SafeAreaView className={cn("flex-1", getBgColorClass("background"))} edges={["top"]}>
+    <SafeAreaView
+      className={cn("flex-1", getBgColorClass("background"))}
+      edges={["top"]}
+    >
       {/* Header */}
       <View className="flex-row items-center justify-between p-4">
         <TouchableOpacity
@@ -279,16 +282,18 @@ export const ProductDetailScreen = ({
                   : `Add to Cart (${selectedQuantity})`
               }
               onPress={handleAddToCart}
-              className="flex-1"
+              className="flex-1 bg-[#EC4899]"
               icon={<Ionicons name="bag-add" size={20} color="white" />}
             />
 
             {inCart && (
               <Button
                 title="View Cart"
-                variant="outline"
+                className="bg-white dark:bg-dark "
+                textClassName="text-black dark:text-white"
                 onPress={handleGoToCart}
                 icon={<Ionicons name="bag-outline" size={20} color="#EC4899" />}
+                iconPosition="left"
               />
             )}
           </View>

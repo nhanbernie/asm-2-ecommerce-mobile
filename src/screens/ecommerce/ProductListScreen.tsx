@@ -1,4 +1,4 @@
-import { RootStackParamList } from "@/common/types/rootParamList";
+import { TabScreenProps } from "@/common/types/rootParamList";
 import { Badge, Chip, Input, Spinner } from "@/components/ui";
 import { useCart } from "@/contexts/CartContext";
 import { useProducts } from "@/hooks/useProducts";
@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { ProductCard } from "@/screens/ecommerce/components/ProductCard";
 import { Product } from "@/services/api";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useCallback, useState } from "react";
 import {
   FlatList,
@@ -18,9 +17,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-type ProductListScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, "ProductList">;
-};
+type ProductListScreenProps = TabScreenProps<"ProductList">;
 
 const categories = [
   "All",
@@ -195,11 +192,10 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
         data={categories}
         horizontal
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => `category-${item}`}
         contentContainerStyle={{ paddingHorizontal: 4 }}
         renderItem={({ item }) => (
           <Chip
-            key={item}
             selected={selectedCategory === item}
             onPress={() => handleCategorySelect(item)}
             className="mr-2 "
@@ -312,9 +308,9 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
       <FlatList
         data={products}
         renderItem={renderProductItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => `product-${item.id}-${index}`}
         numColumns={viewMode === "grid" ? 2 : 1}
-        key={viewMode}
+        key={`${viewMode}-${selectedCategory}-${searchQuery}`}
         ListHeaderComponent={renderListHeader}
         ListFooterComponent={renderListFooter}
         ListEmptyComponent={renderEmptyComponent}
