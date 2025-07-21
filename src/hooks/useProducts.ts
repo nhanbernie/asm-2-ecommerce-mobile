@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { apiService, Product, PaginatedResponse } from "@/services/api";
+import { apiService, PaginatedResponse, Product } from "@/services/api";
+import { useCallback, useEffect, useState } from "react";
 
 interface UseProductsReturn {
   products: Product[];

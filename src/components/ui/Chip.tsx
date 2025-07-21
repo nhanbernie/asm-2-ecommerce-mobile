@@ -4,8 +4,8 @@ import React from "react";
 import {
   Text,
   TouchableOpacity,
-  View,
   TouchableOpacityProps,
+  View,
 } from "react-native";
 
 interface ChipProps extends TouchableOpacityProps {
@@ -49,7 +49,7 @@ export const Chip = ({
 
   const getVariantClasses = () => {
     if (selected) {
-      return cn(getBgColorClass("primary"), "text-white");
+      return "bg-[#EC4899] text-white";
     }
 
     switch (variant) {
@@ -106,7 +106,7 @@ export const Chip = ({
   return (
     <View
       className={cn(
-        "rounded-full items-center justify-center",
+        "rounded-full items-center justify-center bg-pink-400",
         getSizeClasses(),
         getVariantClasses(),
         className

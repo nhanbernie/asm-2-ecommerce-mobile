@@ -87,7 +87,7 @@ export const Input = forwardRef<TextInput, InputProps>(
 
         <View className="relative">
           {leftIcon && (
-            <View className="absolute left-3 top-1/2 -translate-y-1/2 z-10">
+            <View className="absolute left-3 top-1/2 -translate-y-1/2 z-10 items-center justify-center">
               {leftIcon}
             </View>
           )}
@@ -105,7 +105,7 @@ export const Input = forwardRef<TextInput, InputProps>(
           />
 
           {rightIcon && (
-            <View className="absolute right-3 top-1/2 -translate-y-1/2 z-10">
+            <View className="absolute right-3 top-1/2 -translate-y-1/2 z-10 items-center justify-center">
               {rightIcon}
             </View>
           )}

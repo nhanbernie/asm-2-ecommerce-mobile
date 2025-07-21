@@ -92,6 +92,7 @@ export const PriceSummary = ({
           title={`Checkout ($${finalTotal.toFixed(2)})`}
           onPress={onCheckout}
           className="mt-6"
+          styles={{ backgroundColor: "#EC4899" }}
         />
       )}
     </View>

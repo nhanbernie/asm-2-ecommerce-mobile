@@ -36,7 +36,6 @@ class ApiService {
       const response = await fetch(
         `${BASE_URL}/products?limit=${limit}&skip=${skip}`
       );
-      console.log("response: ", response);
 
       if (!response.ok) throw new Error("Failed to fetch products");
       return await response.json();

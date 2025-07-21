@@ -67,7 +67,7 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
     searchProducts,
     filterByCategory,
     clearFilters,
-  } = useProducts(12);
+  } = useProducts(4);
 
   const handleSearch = useCallback(
     (query: string) => {
@@ -178,6 +178,7 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
         rightIcon={
           <TouchableOpacity
             onPress={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
+            className="w-8 h-8 items-center justify-center"
           >
             <Ionicons
               name={viewMode === "grid" ? "list" : "grid"}
@@ -201,7 +202,7 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
             key={item}
             selected={selectedCategory === item}
             onPress={() => handleCategorySelect(item)}
-            className="mr-2"
+            className="mr-2 "
           >
             {item === "All" ? "All" : item.replace("-", " ")}
           </Chip>
@@ -223,8 +224,9 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
               setSelectedCategory("All");
               clearFilters();
             }}
+            className=""
           >
-            <Text className="text-pink-500 font-medium">Clear filters</Text>
+            <Text className="text-[#EC4899] font-medium">Clear filters</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -235,8 +237,16 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
     if (!loading || products.length === 0) return null;
 
     return (
-      <View className="py-4">
-        <Spinner size="md" />
+      <View className="flex-row justify-center items-center">
+        {!loading ? (
+          <Text className="text-base text-white font-semibold">
+            Swipe up to view more
+          </Text>
+        ) : (
+          <View className="py-4">
+            <Spinner size="md" />
+          </View>
+        )}
       </View>
     );
   };
@@ -272,7 +282,8 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
           </Text>
           <TouchableOpacity
             onPress={refresh}
-            className="mt-4 px-6 py-2 bg-pink-500 rounded-full"
+            className="mt-4 px-6 py-2 rounded-full"
+            style={{ backgroundColor: "#EC4899" }}
           >
             <Text className="text-white font-medium">Try Again</Text>
           </TouchableOpacity>
@@ -296,13 +307,14 @@ export const ProductListScreen = ({ navigation }: ProductListScreenProps) => {
     <SafeAreaView
       className={cn("flex-1", getBgColorClass("background"))}
       edges={["top"]}
+      style={{ marginBlockEnd: 10 }}
     >
       <FlatList
         data={products}
         renderItem={renderProductItem}
         keyExtractor={(item) => item.id.toString()}
         numColumns={viewMode === "grid" ? 2 : 1}
-        key={viewMode} // Force re-render when view mode changes
+        key={viewMode}
         ListHeaderComponent={renderListHeader}
         ListFooterComponent={renderListFooter}
         ListEmptyComponent={renderEmptyComponent}

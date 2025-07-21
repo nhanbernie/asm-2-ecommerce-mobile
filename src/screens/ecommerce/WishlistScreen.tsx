@@ -34,40 +34,36 @@ export const WishlistScreen = ({ navigation }: WishlistScreenProps) => {
   );
 
   const renderEmptyWishlist = () => (
-    <SafeAreaView
-      className={cn("flex-1", getBgColorClass("background"))}
-      edges={["top"]}
-    >
-      <View className="flex-1 items-center justify-center px-8">
-        <View className="w-32 h-32 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center mb-6">
-          <Ionicons name="heart-outline" size={64} color="#9CA3AF" />
-        </View>
-
-        <Text
-          className={cn(
-            "text-2xl font-bold mb-2 text-center",
-            getTextColorClass("text")
-          )}
-        >
-          Your wishlist is empty
-        </Text>
-
-        <Text
-          className={cn(
-            "text-center mb-8 leading-6",
-            getTextColorClass("text-secondary")
-          )}
-        >
-          Save your favorite items by tapping the heart icon on any product!
-        </Text>
-
-        <Button
-          title="Browse Products"
-          onPress={() => navigation.navigate("ProductList")}
-          className="w-full"
-        />
+    <View className="flex-1 items-center justify-center px-8">
+      <View className="w-32 h-32 rounded-full bg-gray-100 dark:bg-gray-800 items-center justify-center mb-6">
+        <Ionicons name="heart-outline" size={64} color="#9CA3AF" />
       </View>
-    </SafeAreaView>
+
+      <Text
+        className={cn(
+          "text-2xl font-bold mb-2 text-center",
+          getTextColorClass("text")
+        )}
+      >
+        Your wishlist is empty
+      </Text>
+
+      <Text
+        className={cn(
+          "text-center mb-8 leading-6",
+          getTextColorClass("text-secondary")
+        )}
+      >
+        Save your favorite items by tapping the heart icon on any product!
+      </Text>
+
+      <Button
+        title="Browse Products"
+        onPress={() => navigation.navigate("ProductList")}
+        className="w-full"
+        styles={{ backgroundColor: "#EC4899" }}
+      />
+    </View>
   );
 
   const renderHeader = () => (

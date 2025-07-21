@@ -11,9 +11,12 @@ interface ButtonProps {
   disabled?: boolean;
   icon?: undefined | React.ReactNode;
   iconPosition?: "left" | "right";
+  textClassName?: string;
+  styles?: any;
 }
 
 export const Button = ({
+  styles,
   title,
   onPress,
   variant = "primary",
@@ -21,6 +24,7 @@ export const Button = ({
   disabled = false,
   icon,
   iconPosition = "left",
+  textClassName = "",
 }: ButtonProps) => {
   const { getBgColorClass, getTextColorClass, getBorderColorClass } =
     useThemeClasses();
@@ -31,11 +35,10 @@ export const Button = ({
 
     switch (variant) {
       case "primary":
-        return `${baseClasses} ${
-          disabled
+        return `${baseClasses} ${disabled
             ? "bg-text-secondary-light dark:bg-text-secondary-dark"
             : getBgColorClass("primary")
-        }`;
+          }`;
       case "secondary":
         return `${baseClasses} ${getBgColorClass("surface")}`;
       case "outline":
@@ -66,13 +69,16 @@ export const Button = ({
       onPress={onPress}
       disabled={disabled}
       activeOpacity={0.8}
+      style={styles}
     >
       <View className="flex-row items-center justify-center">
         {icon && iconPosition === "left" && (
           <View className="mx-2">{icon}</View>
         )}
 
-        <Text className={cn(getTextClasses())}>{String(title || "")}</Text>
+        <Text className={cn(getTextClasses(), textClassName)}>
+          {String(title || "")}
+        </Text>
 
         {icon && iconPosition === "right" && (
           <View className="mx-2">{icon}</View>

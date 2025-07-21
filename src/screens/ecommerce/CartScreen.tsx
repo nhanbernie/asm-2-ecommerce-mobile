@@ -84,7 +84,7 @@ export const CartScreen = ({ navigation }: CartScreenProps) => {
       <Button
         title="Start Shopping"
         onPress={() => navigation.navigate("ProductList")}
-        className="w-full"
+        className="w-full bg-[#EC4899]"
       />
     </View>
   );
@@ -162,8 +162,8 @@ export const CartScreen = ({ navigation }: CartScreenProps) => {
                 <Button
                   title="Continue Shopping"
                   onPress={() => navigation.navigate("ProductList")}
-                  variant="outline"
-                  className="w-full"
+                  className="bg-gray-200 dark:bg-gray-700"
+                  textClassName="text-[#EC4899]"
                 />
               </View>
             </View>

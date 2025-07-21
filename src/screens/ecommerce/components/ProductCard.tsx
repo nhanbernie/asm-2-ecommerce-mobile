@@ -22,7 +22,6 @@ export const ProductCard = ({
   const { getBgColorClass, getTextColorClass } = useThemeClasses();
   const { addItem, isInCart, getItemQuantity } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
-  console.log("Data card image: ", product.images);
 
   const handleAddToCart = (e: any) => {
     e.stopPropagation();
@@ -106,14 +105,10 @@ export const ProductCard = ({
             onPress={handleAddToCart}
             className={cn(
               "w-10 h-10 rounded-full items-center justify-center",
-              inCart ? "bg-green-500" : "bg-primary-light dark:bg-primary-dark"
+              "bg-pink-400"
             )}
           >
-            <Ionicons
-              name={inCart ? "checkmark" : "add"}
-              size={20}
-              color="white"
-            />
+            <Ionicons name={"add"} size={20} color="white" />
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
@@ -155,14 +150,10 @@ export const ProductCard = ({
           onPress={handleAddToCart}
           className={cn(
             "absolute top-3 right-3 w-12 h-12 rounded-full items-center justify-center shadow-lg",
-            inCart ? "bg-green-500" : "bg-pink-400"
+            "bg-pink-400"
           )}
         >
-          <Ionicons
-            name={inCart ? "checkmark" : "add"}
-            size={20}
-            color="white"
-          />
+          <Ionicons name={"add"} size={20} color="white" />
         </TouchableOpacity>
       </View>
 

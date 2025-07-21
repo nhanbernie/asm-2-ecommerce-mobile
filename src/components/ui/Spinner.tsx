@@ -48,7 +48,7 @@ export const Spinner = ({
       case "white":
         return "border-white";
       default:
-        return "border-primary-light dark:border-primary-dark";
+        return "border-[#EC4899]";
     }
   };
 
